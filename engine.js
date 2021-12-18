@@ -1,7 +1,7 @@
 /* eslint-disable require-jsdoc */
 const udp = require('dgram');
 
-class engine {
+class Engine {
   constructor(roomID) {
 
   }
@@ -69,7 +69,7 @@ onmessage = function(e) {
   parameters = e.data[1];
   switch (action) {
     case 'INIT':
-      global.engine = new engine(parameters); // create a room with this room ID
+      global.engine = new Engine(parameters); // create a room with this room ID
       global.selfID = roomID;
       break;
 

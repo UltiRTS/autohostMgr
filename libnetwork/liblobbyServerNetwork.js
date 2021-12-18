@@ -1,9 +1,8 @@
 
 // import { WebSocketServer } from 'ws';
-const ws=require('ws');
+const {WebSocketServer} = require('ws');
 const conf=require('../dev.conf');
 
-const WebSocketServer=ws.WebSocketServer;
 /**
  * @function initLobbyServerNetwork
  */
