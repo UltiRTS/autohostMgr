@@ -4,6 +4,8 @@
     "ws": "^8.2.3"
   },
   "devDependencies": {
+    "eslint": "^8.5.0",
+    "eslint-config-google": "^0.14.0",
     "jest": "^27.2.5"
   },
   "scripts": {
