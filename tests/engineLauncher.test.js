@@ -15,7 +15,7 @@ game.addFromInstance(team);
 console.log(game.toString());
 
 const starter = new EngineBridger(process.cwd(), 'test', ['cmd1', 'cmd2']);
-starter.scriptGen(2000, {
+starter.scriptGen(3000, 2000, {
   chan: {
     'index': 0,
     'isAI': false,
