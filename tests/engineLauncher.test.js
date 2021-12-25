@@ -58,3 +58,6 @@ starter.scriptGen(3000, 2000, {
     'team': 1,
   },
 }, 3, 'somemap');
+
+
+starter.launchGame();

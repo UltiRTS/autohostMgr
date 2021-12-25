@@ -33,7 +33,7 @@ class HosterThread {
         case 'startGame':
           newRoom(parameters);
         case 'exitGame':
-          eixtGame(parameters);
+          exitGame(parameters);
       }
     });
   }
