@@ -1,2 +1,4 @@
-config={'allowedLobbyServer': ['127.0.0.1', '0.0.0.0', '::ffff:127.0.0.1']};
+config={
+  'targetLs': '127.0.0.1:8080',
+};
 module.exports=config;
