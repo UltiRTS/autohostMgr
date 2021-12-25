@@ -26,15 +26,10 @@ class HosterThread {
     });
 
     // engine to hoster event listener
-    eventEmitter.on('engineUDPMSG', (requestDict)=>{
-      const action=requestDict.action;
-      const parameters=requestDict.parameters;
-      switch (action) {
-        case 'startGame':
-          newRoom(parameters);
-        case 'exitGame':
-          exitGame(parameters);
-      }
+    eventEmitter.on('engineUDPMSG', (rawUDPMSG)=>{
+      let parsedMessage=this.decodeUDPMSG(rawUDPMSG);
+      postMessage(parsedMessage) // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
+      // and the decision will be configurable. See main.js: hoster to mgr event listener
     });
   }
 
@@ -54,6 +49,6 @@ class HosterThread {
    */
   exitGame(parameters) {
     // TODO: send exit commands through the udp server
-    send2springEngine();
+    autohostServer.send2springEngine(this.encodeUDPMSG(parameters));
   }
 }
