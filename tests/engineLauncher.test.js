@@ -1,6 +1,5 @@
 
-const launcher = require('../lib/engineLauncher');
-const OptionFactory = launcher.OptionFactory;
+const {EngineBridger, OptionFactory} = require('../lib/engine');
 
 const game = new OptionFactory('GAME');
 const team = new OptionFactory('TEAM');
@@ -15,10 +14,10 @@ game.addFromInstance(team);
 
 console.log(game.toString());
 
-const starter = new launcher.EngineLauncher();
-starter.scriptGen(process.cwd(), 2000, {
+const starter = new EngineBridger(process.cwd(), 'test', ['cmd1', 'cmd2']);
+starter.scriptGen(2000, {
   chan: {
-    'index': 1,
+    'index': 0,
     'isAI': false,
     'isChicken': false,
     'isSpector': false,
@@ -26,15 +25,15 @@ starter.scriptGen(process.cwd(), 2000, {
     'team': 0,
   },
   ai: {
-    'index': 2,
+    'index': 1,
     'isAI': true,
     'isChicken': false,
     'isSpector': false,
-    'isLeader': true,
+    'isLeader': false,
     'team': 1,
   },
   chicken: {
-    'index': 3,
+    'index': 2,
     'isAI': false,
     'isChicken': true,
     'isSpector': false,
@@ -42,11 +41,20 @@ starter.scriptGen(process.cwd(), 2000, {
     'team': 2,
   },
   spectator: {
-    'index': 4,
+    'index': 3,
     'isAI': false,
     'isChicken': false,
     'isSpector': true,
     'isLeader': false,
     'team': 2,
 
-  }}, {map: {mapName: 'somemap'}}, 'username', 2);
+  },
+  chan1: {
+    'index': 4,
+    'isAI': false,
+    'isChicken': false,
+    'isSpector': false,
+    'isLeader': true,
+    'team': 1,
+  },
+}, 3, 'somemap');
