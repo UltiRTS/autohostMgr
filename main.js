@@ -18,29 +18,9 @@ eventEmitter.on('plasmidRequest', (requestDict)=>{
     case 'startGame':
       newRoom(parameters);
     case 'exitGame':
-      eixtGame(parameters);
+      exitGame(parameters);
   }
 });
-
-
-// hoster to mgr event listener
-worker.addEventListener('message', (e) => {
-  const action=e.data.action;
-  const parameters=e.data.parameters;
-  // seems this variable not used
-
-  // eslint-disable-next-line no-unused-vars
-  const roomID=parameters.id;
-  switch (action) {
-    case 'gameEnded':
-      autohostMgrCltNetwork.send2plasmid(
-          {'action': 'gameEnded', 'parameters': parameters});
-    case 'sayChat':
-      autohostMgrCltNetwork.send2plasmid(
-          {'action': 'sayChat', 'parameters': parameters});
-  }
-});
-
 
 // helper function
 /**
@@ -51,6 +31,23 @@ function newRoom(parameters) {
   const worker = new Worker('./hoster.js');
   rooms[parameters.id]
       .postMessage({'action': 'startGame', 'parameters': parameters});
+  // hoster to mgr event listener
+  worker.addEventListener('message', (e) => {
+    const action=e.data.action;
+    const parameters=e.data.parameters;
+    // seems this variable not used
+
+    // eslint-disable-next-line no-unused-vars
+    const roomID=parameters.id;
+    switch (action) {
+      case 'gameEnded':
+        autohostMgrCltNetwork.send2plasmid(
+            {'action': 'gameEnded', 'parameters': parameters});
+      case 'sayChat':
+        autohostMgrCltNetwork.send2plasmid(
+            {'action': 'sayChat', 'parameters': parameters});
+    }
+  });
   rooms[parameters.id] = worker;
 }
 
