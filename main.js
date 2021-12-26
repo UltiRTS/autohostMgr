@@ -1,7 +1,7 @@
 const config = require('./config');
 
 const EventEmitter = require('events');
-const eventEmitter = new EventEmitter();
+eventEmitter = new EventEmitter();
 
 const {AutohostMgrCltNetwork} = require('./lib/network');
 const autohostMgrCltNetwork = new AutohostMgrCltNetwork(config.plasmidServer);
