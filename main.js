@@ -28,7 +28,8 @@ eventEmitter.on('plasmidRequest', (requestDict)=>{
  * @param {object} parameters
  */
 function newRoom(parameters) {
-  const worker = new Worker('./hoster.js');
+  const worker = new Worker('./hoster/hoster.js');
+  rooms[parameters.id] = worker;
   rooms[parameters.id]
       .postMessage({'action': 'startGame', 'parameters': parameters});
   // hoster to mgr event listener
@@ -52,9 +53,9 @@ function newRoom(parameters) {
 }
 
 /**
- * @function exitGame
+ * @param {object} parameters for game
  */
-function exitGame() {
+function exitGame(parameters) {
   rooms[parameters.id]
       .postMessage({'action': 'exitGame', 'parameters': parameters});
 }

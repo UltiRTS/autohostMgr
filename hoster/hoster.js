@@ -3,7 +3,7 @@ const EventEmitter = require('events');
 const eventEmitter = new EventEmitter();
 
 // eslint-disable-next-line no-unused-vars
-const hoster = new HosterThread();
+
 // this is the prototype that's to be mted
 /**
  * @class hosterThread
@@ -13,15 +13,17 @@ class HosterThread {
    * @description simple threading constructor
    */
   constructor() {
+    this.autohostServer = null;
     // main to hoster event listener
     addEventListener('message', (e) => {
       const action=e.data.action;
       const parameters=e.data.parameters;
+
       switch (action) {
         case 'startGame':
-          startGame(parameters);
+          this.startGame(parameters);
         case 'exitGame':
-          exitGame(parameters);
+          this.exitGame(parameters);
       }
     });
 
@@ -40,7 +42,8 @@ class HosterThread {
   startGame(parameters) {
     // TODO: generate script and start an udp server
     // let spring to connect to the udp server
-    autohostServer = new AutohostIfNetwork(1024+parameters.id, eventEmitter);
+    // eslint-disable-next-line max-len
+    this.autohostServer = new AutohostIfNetwork(1024+parameters.id, eventEmitter);
   }
 
   /**
@@ -49,6 +52,7 @@ class HosterThread {
    */
   exitGame(parameters) {
     // TODO: send exit commands through the udp server
-    autohostServer.send2springEngine(this.encodeUDPMSG(parameters));
+    // this.autohostServer.send2springEngine(this.encodeUDPMSG(parameters));
   }
 }
+new HosterThread();
