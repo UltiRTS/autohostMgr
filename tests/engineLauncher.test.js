@@ -57,7 +57,7 @@ starter.scriptGen(3000, 2000, {
     'isLeader': true,
     'team': 1,
   },
-}, 3, 'somemap');
+}, 3, 'Comet Catcher Redux');
 
 
 starter.launchGame();
