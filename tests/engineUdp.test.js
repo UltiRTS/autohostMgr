@@ -3,5 +3,9 @@ const {EventEmitter} = require('events');
 
 const eventEmitter = new EventEmitter();
 
+eventEmitter.on('engineMsg', (msg) => {
+  console.log(msg);
+});
+
 const autohostIfNetwork = new AutohostIfNetwork(3000, eventEmitter);
 
