@@ -3,6 +3,9 @@ const plasmidServer = {
   host: '127.0.0.1',
 };
 
+const dntpServerAddr = 'http://127.0.0.1:3000';
+
 module.exports = {
   plasmidServer,
+  dntpServerAddr,
 };
