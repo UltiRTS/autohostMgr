@@ -31,7 +31,7 @@ class HosterThread {
 
     // engine to hoster event listener
     eventEmitter.on('engineUDPMSG', (rawUDPMSG)=>{
-      let parsedMessage=this.decodeUDPMSG(rawUDPMSG);
+      const parsedMessage=this.decodeUDPMSG(rawUDPMSG);
       // eslint-disable-next-line max-len
       postMessage(parsedMessage); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
       // eslint-disable-next-line max-len
@@ -47,7 +47,7 @@ class HosterThread {
     // TODO: generate script and start an udp server
     // let spring to connect to the udp server
     // eslint-disable-next-line max-len
-    console.log(parameters)
+    console.log('game config: ', parameters);
     const hostPort=2000+parameters.id;
     const battlePort=6000+parameters.id;
     const mapName=parameters.map;

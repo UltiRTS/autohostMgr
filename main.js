@@ -17,6 +17,7 @@ eventEmitter.on('plasmidRequest', (requestDict)=>{
   switch (action) {
     case 'startGame':
       newRoom(parameters);
+      console.log('startGame');
     case 'exitGame':
       exitGame(parameters);
   }
