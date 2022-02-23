@@ -30,25 +30,20 @@ eventEmitter.on('plasmidRequest', (requestDict)=>{
  */
 function newRoom(parameters) {
   const worker = new Worker('./hoster/hoster.js');
+  const roomID=parameters.id;
   rooms[parameters.id] = worker;
   rooms[parameters.id]
       .postMessage({'action': 'startGame', 'parameters': parameters});
   // hoster to mgr event listener
   worker.addEventListener('message', (e) => {
-    const action=e.data.action;
-    const parameters=e.data.parameters;
+    // see file: lib/autohostInterfaceNetwork.js
+    const message = e.data;
+    message.battle = roomID;
+
+    autohostMgrCltNetwork.send2plasmid(JSON.stringify(message));
     // seems this variable not used
 
     // eslint-disable-next-line no-unused-vars
-    const roomID=parameters.id;
-    switch (action) {
-      case 'gameEnded':
-        autohostMgrCltNetwork.send2plasmid(
-            {'action': 'gameEnded', 'parameters': parameters});
-      case 'sayChat':
-        autohostMgrCltNetwork.send2plasmid(
-            {'action': 'sayChat', 'parameters': parameters});
-    }
   });
   rooms[parameters.id] = worker;
 }

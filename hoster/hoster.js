@@ -30,10 +30,9 @@ class HosterThread {
     });
 
     // engine to hoster event listener
-    eventEmitter.on('engineUDPMSG', (rawUDPMSG)=>{
-      const parsedMessage=this.decodeUDPMSG(rawUDPMSG);
+    eventEmitter.on('engineMsg', (message)=>{
       // eslint-disable-next-line max-len
-      postMessage(parsedMessage); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
+      postMessage(message); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
       // eslint-disable-next-line max-len
       // and the decision will be configurable. See main.js: hoster to mgr event listener
     });
