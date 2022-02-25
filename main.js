@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const config = require('./config');
 
 const EventEmitter = require('events');
@@ -18,8 +19,8 @@ eventEmitter.on('plasmidRequest', (requestDict)=>{
     case 'startGame':
       newRoom(parameters);
       console.log('startGame');
-    case 'exitGame':
-      exitGame(parameters);
+    case 'killEngine':
+      killEngine(parameters);
   }
 });
 
@@ -33,8 +34,7 @@ function newRoom(parameters) {
   const roomID=parameters.id;
   const title=parameters.title;
   rooms[parameters.id] = worker;
-  rooms[parameters.id]
-      .postMessage({'action': 'startGame', 'parameters': parameters});
+  rooms[parameters.id].postMessage({'action': 'startGame', 'parameters': parameters});
   // hoster to mgr event listener
   worker.addEventListener('message', (e) => {
     // see file: lib/autohostInterfaceNetwork.js
@@ -54,7 +54,7 @@ function newRoom(parameters) {
 /**
  * @param {object} parameters for game
  */
-function exitGame(parameters) {
+function killEngine(parameters) {
   rooms[parameters.id]
       .postMessage({'action': 'exitGame', 'parameters': parameters});
 }

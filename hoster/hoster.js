@@ -77,8 +77,11 @@ class HosterThread {
    * @param {object} parameters
    */
   exitGame(parameters) {
-    // TODO: send exit commands through the udp server
-    // this.autohostServer.send2springEngine(this.encodeUDPMSG(parameters));
+    try {
+      this.autohostServer.send2springEngine('/kill');
+    } catch {
+      console.log('autohost server not running');
+    }
   }
 }
 new HosterThread();
