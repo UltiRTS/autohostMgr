@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const {AutohostIfNetwork} = require('../lib/autohostInterfaceNetwork');
 const EventEmitter = require('events');
 const eventEmitter = new EventEmitter();
@@ -32,7 +33,7 @@ class HosterThread {
     // engine to hoster event listener
     eventEmitter.on('engineMsg', (message)=>{
       // eslint-disable-next-line max-len
-      postMessage(message); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
+      postMessage(JSON.stringify(message)); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
       // eslint-disable-next-line max-len
       // and the decision will be configurable. See main.js: hoster to mgr event listener
     });
@@ -76,8 +77,11 @@ class HosterThread {
    * @param {object} parameters
    */
   exitGame(parameters) {
-    // TODO: send exit commands through the udp server
-    // this.autohostServer.send2springEngine(this.encodeUDPMSG(parameters));
+    try {
+      this.autohostServer.send2springEngine('/kill');
+    } catch {
+      console.log('autohost server not running');
+    }
   }
 }
 new HosterThread();
