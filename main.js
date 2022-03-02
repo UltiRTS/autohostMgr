@@ -3,21 +3,48 @@ const config = require('./config');
 const EventEmitter = require('events');
 eventEmitter = new EventEmitter();
 
-const {AutohostMgrCltNetwork} = require('./lib/network');
+const {AutohostMgrCltNetwork, downloadMap} = require('./lib/network');
+const {DntpCommunicator} = require('./lib/dntpCommunicator');
 const autohostMgrCltNetwork = new AutohostMgrCltNetwork(config.plasmidServer);
 
 const Worker= require('web-worker');
+const dntpCommunicator =
+  new DntpCommunicator(config.dntpServerAddr, config.localMapDir);
 
 const rooms={};
 
 // plasmid to mgr event listener
-eventEmitter.on('plasmidRequest', (requestDict)=>{
+eventEmitter.on('plasmidRequest', async (requestDict)=>{
   const action=requestDict.action;
   const parameters=requestDict.parameters;
   switch (action) {
     case 'startGame':
-      newRoom(parameters);
-      console.log('startGame');
+      // check if map exists
+      const mapQuery = await dntpCommunicator.getMapUrlById(parameters.mapId);
+      if (mapQuery.error !== undefined) {
+        autohostMgrCltNetwork.send2plasmid({
+          'error': 'map not found',
+        });
+        break;
+      }
+
+      const res = downloadMap(mapQuery, config.localMapDir);
+      if (res === false) {
+        autohostMgrCltNetwork.send2plasmid({
+          'error': 'map download failed',
+        });
+        break;
+      }
+
+      try {
+        newRoom(parameters);
+        console.log('startGame');
+      } catch (e) {
+        autohostMgrCltNetwork.send2plasmid(JSON.stringify({
+          'action': 'startGame',
+          'error': 'unknown error',
+        }));
+      }
     case 'exitGame':
       exitGame(parameters);
   }
