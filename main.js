@@ -30,6 +30,7 @@ eventEmitter.on('plasmidRequest', async (requestDict)=>{
       }
 
       // required by hoster
+	console.log(mapQuery);
       parameters.map = mapQuery.map_name;
 
       const res = downloadMap(mapQuery, config.localMapDir);
