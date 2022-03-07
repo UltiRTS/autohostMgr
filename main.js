@@ -29,6 +29,9 @@ eventEmitter.on('plasmidRequest', async (requestDict)=>{
         break;
       }
 
+      // required by hoster
+      parameters.map = mapQuery.map_name;
+
       const res = downloadMap(mapQuery, config.localMapDir);
       if (res === false) {
         autohostMgrCltNetwork.send2plasmid({
