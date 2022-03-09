@@ -50,7 +50,7 @@ class HosterThread {
     console.log('game config: ', parameters);
     const hostPort=2000+parameters.id;
     const battlePort=6000+parameters.id;
-    const mapName=parameters.map || 'noname';
+    const mapName=parameters.map;
     // eslint-disable-next-line max-len
     this.autohostServer = new AutohostIfNetwork(2000+parameters.id, eventEmitter);
     const engine = new EngineBridger(process.cwd(), ['cmd1', 'cmd2']);
