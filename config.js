@@ -1,5 +1,5 @@
 const plasmidServer = {
-  port: 8080,
+  port: 5000,
   host: '127.0.0.1',
 };
 
