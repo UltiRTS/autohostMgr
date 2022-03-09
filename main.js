@@ -31,8 +31,14 @@ eventEmitter.on('plasmidRequest', async (requestDict)=>{
       }
 
       // required by hoster
+<<<<<<< HEAD
 	    // console.log(mapQuery);
       parameters.map = mapQuery.map.map_name;
+=======
+
+      parameters.map = mapQuery.map.map_name;
+
+>>>>>>> ab4ab2cbf121b3a45bed152a9a8115dd1926b100
 
       const res = downloadMap(mapQuery, config.localMapDir);
       if (res === false) {
