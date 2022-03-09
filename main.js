@@ -22,6 +22,7 @@ eventEmitter.on('plasmidRequest', async (requestDict)=>{
     case 'startGame':
       // check if map exists
       const mapQuery = await dntpCommunicator.getMapUrlById(parameters.mapId);
+      console.log('dntp service response: ', mapQuery);
       if (mapQuery.error !== undefined) {
         autohostMgrCltNetwork.send2plasmid({
           'error': 'map not found',
@@ -30,8 +31,9 @@ eventEmitter.on('plasmidRequest', async (requestDict)=>{
       }
 
       // required by hoster
-	console.log(mapQuery);
-      parameters.map = mapQuery.map_name;
+
+      parameters.map = mapQuery.map.map_name;
+
 
       const res = downloadMap(mapQuery, config.localMapDir);
       if (res === false) {
