@@ -59,6 +59,7 @@ try{
         }
       case 'killEngine':
         killEngine(parameters);
+        break;
     }
   });
 
@@ -79,7 +80,7 @@ try{
       const message = JSON.parse(e.data);
       message.parameters.roomID = roomID;
       message.parameters.title = title;
-      // console.log('autohost interface:');
+      console.log('autohost interface:');
       console.log(message);
       autohostMgrCltNetwork.send2plasmid(message);
       // seems this variable not used
@@ -96,6 +97,7 @@ catch(e) {
       parameters: {'roomID': room, 'title': [rooms].room.title}
     };
     autohostMgrCltNetwork.send2plasmid(message);
+  }
 }
 
 /**
