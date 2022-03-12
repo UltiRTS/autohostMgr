@@ -13,7 +13,7 @@ const dntpCommunicator =
   new DntpCommunicator(config.dntpServerAddr, config.localMapDir);
 
 const rooms={};
-try{
+try {
 // plasmid to mgr event listener
   eventEmitter.on('plasmidRequest', async (requestDict)=>{
     const action=requestDict.action;
@@ -28,20 +28,20 @@ try{
             'action': 'error',
             'parameters': {
               'info': 'map File Empty Response',
-            }
+            },
           });
           break;
         }
 
 
         parameters.map = mapQuery.map.map_name;
-        const res = downloadMap(mapQuery, config.localMapDir);
+        const res = await downloadMap(mapQuery, config.localMapDir);
         if (res === false) {
           autohostMgrCltNetwork.send2plasmid({
             'action': 'error',
             'parameters': {
               'info': 'map File Download Failure',
-            }
+            },
           });
           break;
         }
@@ -54,12 +54,15 @@ try{
             'action': 'error',
             'parameters': {
               'info': 'room Prototype Init Failure',
-            }
+            },
           }));
         }
       case 'killEngine':
         killEngine(parameters);
         break;
+      case 'midJoin':
+        rooms[parameters.id]
+            .postMessage({'action': 'midJoin', 'parameters': parameters});
     }
   });
 
@@ -89,12 +92,12 @@ try{
     });
     rooms[parameters.id] = worker;
   }
-}
-catch(e) {
+} catch (e) {
+  // eslint-disable-next-line guard-for-in
   for (room in rooms) {
     message = {
       action: 'serverEnding',
-      parameters: {'roomID': room, 'title': [rooms].room.title}
+      parameters: {'roomID': room, 'title': [rooms].room.title},
     };
     autohostMgrCltNetwork.send2plasmid(message);
   }

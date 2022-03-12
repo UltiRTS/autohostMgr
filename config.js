@@ -3,8 +3,8 @@ const plasmidServer = {
   host: '127.0.0.1',
 };
 
-const dntpServerAddr = 'http://127.0.0.1:3000';
-const localMapDir = './maps';
+const dntpServerAddr = 'http://ulti-repo.eterea.uk:3000';
+const localMapDir = './engine/maps';
 
 module.exports = {
   plasmidServer,

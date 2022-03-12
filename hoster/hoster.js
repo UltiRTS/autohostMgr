@@ -27,6 +27,8 @@ class HosterThread {
           this.startGame(parameters);
         case 'exitGame':
           this.exitGame(parameters);
+        case 'midJoin':
+          this.autohostServer.midJoin(parameters);
       }
     });
 
