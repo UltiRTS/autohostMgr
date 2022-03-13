@@ -63,6 +63,9 @@ try {
       case 'midJoin':
         rooms[parameters.id]
             .postMessage({'action': 'midJoin', 'parameters': parameters});
+        break;
+      case 'returnRoom':
+        rooms[parameters.id].terminate();
     }
   });
 
