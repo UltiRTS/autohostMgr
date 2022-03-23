@@ -6,6 +6,7 @@ eventEmitter = new EventEmitter();
 
 const {AutohostMgrCltNetwork, downloadMap} = require('./lib/network');
 const {DntpCommunicator} = require('./lib/dntpCommunicator');
+
 const autohostMgrCltNetwork = new AutohostMgrCltNetwork(config.plasmidServer);
 
 const Worker= require('web-worker');
