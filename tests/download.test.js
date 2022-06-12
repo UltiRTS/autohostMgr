@@ -2,13 +2,13 @@ const {downloadMap} = require('../lib/network');
 
 
 mapInfo = {
-  prefix: 'http://ulti-repo.eterea.uk/dNTPDl/tmpMap/',
+  prefix: 'http://prod.promethesys.uk/dNTPDl/tmpMap/',
   map: {
-    id: 7718,
-    map_name: 'Impact🦔Beta',
-    map_filename: 'impact_beta.sd7',
-    minimap_filename: 'Impact🦔Beta.png',
-    map_hash: '7bf227726ffb2d09eb6da7d271aece46',
+    id: 1,
+    map_name: 'mapname',
+    map_filename: 'mapname.sdz',
+    minimap_filename: 'mapname.png',
+    map_hash: '245a7dfc88297197a7fcf7f389ddc115',
   },
 };
 

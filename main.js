@@ -2,12 +2,12 @@
 const config = require('./config');
 
 const EventEmitter = require('events');
-eventEmitter = new EventEmitter();
+const eventEmitter = new EventEmitter();
 
 const {AutohostMgrCltNetwork, downloadMap} = require('./lib/network');
 const {DntpCommunicator} = require('./lib/dntpCommunicator');
 
-const autohostMgrCltNetwork = new AutohostMgrCltNetwork(config.plasmidServer);
+const autohostMgrCltNetwork = new AutohostMgrCltNetwork(config.plasmidServer, eventEmitter);
 
 const Worker= require('web-worker');
 const dntpCommunicator =
@@ -17,6 +17,7 @@ const rooms={};
 try {
 // plasmid to mgr event listener
   eventEmitter.on('plasmidRequest', async (requestDict)=>{
+    console.log(requestDict);
     const action=requestDict.action;
     const parameters=requestDict.parameters;
     switch (action) {
@@ -26,9 +27,11 @@ try {
         console.log('dntp service response: ', mapQuery);
         if (mapQuery.map=='') {
           autohostMgrCltNetwork.send2plasmid({
-            'action': 'error',
-            'parameters': {
-              'info': 'map File Empty Response',
+            action: 'error',
+            parameters: {
+              title: parameters.title,
+              info: 'map File Empty Response',
+              status: false,
             },
           });
           break;
@@ -39,9 +42,11 @@ try {
         const res = await downloadMap(mapQuery, config.localMapDir);
         if (res === false) {
           autohostMgrCltNetwork.send2plasmid({
-            'action': 'error',
-            'parameters': {
-              'info': 'map File Download Failure',
+            action: 'error',
+            parameters: {
+              title: parameters.title,
+              info: 'map File Download Failure',
+              status: false,
             },
           });
           break;
@@ -52,9 +57,11 @@ try {
           console.log('startGame');
         } catch (e) {
           autohostMgrCltNetwork.send2plasmid(JSON.stringify({
-            'action': 'error',
-            'parameters': {
-              'info': 'room Prototype Init Failure',
+            action: 'error',
+            parameters: {
+              title: parameters.title,
+              info: 'room Prototype Init Failure',
+              status: false,
             },
           }));
         }

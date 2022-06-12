@@ -3,7 +3,7 @@ const plasmidServer = {
   host: '127.0.0.1',
 };
 
-const dntpServerAddr = 'http://ulti-repo.eterea.uk:3000';
+const dntpServerAddr = 'http://prod.promethesys.uk:3000';
 const localMapDir = './engine/maps';
 
 module.exports = {

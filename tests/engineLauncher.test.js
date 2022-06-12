@@ -15,7 +15,7 @@ game.addFromInstance(team);
 console.log(game.toString());
 
 const starter = new EngineBridger(process.cwd(), ['cmd1', 'cmd2']);
-starter.scriptGen(3000, 2000, {
+starter.scriptGen(13000, 2000, {
   chan: {
     'index': 0,
     'isAI': false,
@@ -57,7 +57,7 @@ starter.scriptGen(3000, 2000, {
     'isLeader': true,
     'team': 1,
   },
-}, 3, 'Comet Catcher Redux');
+}, 3, 'mapname');
 
 
 starter.launchGame();
