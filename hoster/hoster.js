@@ -17,27 +17,38 @@ class HosterThread {
    */
   constructor() {
     this.autohostServer = null;
+    this.autohostPort = 0;
     // main to hoster event listener
     addEventListener('message', (e) => {
       const action=e.data.action;
       const parameters=e.data.parameters;
 
       switch (action) {
-        case 'startGame':
+        case 'startGame': {
           this.startGame(parameters);
-        case 'exitGame':
+          break;
+        }
+        case 'exitGame': {
           this.exitGame(parameters);
-        case 'midJoin':
+          break;
+        }
+        case 'midJoin': {
           this.autohostServer.midJoin(parameters);
+          break;
+        }
       }
     });
 
     // engine to hoster event listener
     eventEmitter.on('engineMsg', (message)=>{
       // eslint-disable-next-line max-len
+      message.parameters.port = this.autohostPort;
       postMessage(JSON.stringify(message)); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
       // eslint-disable-next-line max-len
       // and the decision will be configurable. See main.js: hoster to mgr event listener
+    });
+    eventEmitter.on('setBattlePort', (port)=>{
+      this.autohostPort = port;
     });
   }
 
@@ -50,9 +61,10 @@ class HosterThread {
     // let spring to connect to the udp server
     // eslint-disable-next-line max-len
     console.log('game config: ', parameters);
-    const hostPort=2000+parameters.id;
-    const battlePort=6000+parameters.id;
+    const hostPort=2000 + parameters.id;
+    const battlePort=6000 + parameters.id;
     const mapName=parameters.map;
+    eventEmitter.emit('setBattlePort', battlePort);
 
     const aiHosters = parameters.aiHosters;
     // eslint-disable-next-line max-len

@@ -21,15 +21,14 @@ try {
     const action=requestDict.action;
     const parameters=requestDict.parameters;
     switch (action) {
-      case 'startGame':
+      case 'startGame': {
         // check if map exists
         const mapQuery = await dntpCommunicator.getMapUrlById(parameters.mapId);
         console.log('dntp service response: ', mapQuery);
         if (mapQuery.map=='') {
           autohostMgrCltNetwork.send2plasmid({
             action: 'error',
-            parameters: {
-              title: parameters.title,
+            parameters: {title: parameters.title,
               info: 'map File Empty Response',
               status: false,
             },
@@ -51,6 +50,7 @@ try {
           });
           break;
         }
+        console.log(parameters);
 
         try {
           newRoom(parameters);
@@ -65,15 +65,22 @@ try {
             },
           }));
         }
-      case 'killEngine':
+        break;
+      }
+
+      case 'killEngine': {
         killEngine(parameters);
         break;
-      case 'midJoin':
+      }
+      case 'midJoin': {
         rooms[parameters.id]
             .postMessage({'action': 'midJoin', 'parameters': parameters});
         break;
-      case 'returnRoom':
+      }
+      case 'returnRoom': {
         rooms[parameters.id].terminate();
+        break;
+      }
     }
   });
 
@@ -121,5 +128,3 @@ function killEngine(parameters) {
   rooms[parameters.id]
       .postMessage({'action': 'exitGame', 'parameters': parameters});
 }
-
-
