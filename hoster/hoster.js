@@ -21,6 +21,7 @@ class HosterThread {
     this.autohostPort = 0;
     this.gameConf = null;
     this.battlePort = 0;
+    this.aiHoster = null;
     // main to hoster event listener
     addEventListener('message', (e) => {
       const action=e.data.action;
@@ -49,8 +50,10 @@ class HosterThread {
       message.parameters.port = this.autohostPort;
       if (message.action === 'serverStarted') {
         console.log('game started, launching ai hoster');
-        const aiHoster = new AIHoster('127.0.0.1', this.battlePort, 'aiHoster', '');
-        aiHoster.scripGenNStart();
+        if (this.aiHoster === null) {
+          this.aiHoster = new AIHoster('127.0.0.1', this.battlePort, 'aiHoster', '');
+          aiHoster.scripGenNStart();
+        }
       }
       postMessage(JSON.stringify(message)); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
       // eslint-disable-next-line max-len
