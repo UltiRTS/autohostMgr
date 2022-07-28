@@ -3,6 +3,7 @@ const {AutohostIfNetwork} = require('../lib/autohostInterfaceNetwork');
 const EventEmitter = require('events');
 const eventEmitter = new EventEmitter();
 const EngineBridger = require('../lib/engine').EngineBridger;
+const {AIHoster} = require('../lib/aiHoster');
 
 
 // eslint-disable-next-line no-unused-vars
@@ -18,6 +19,8 @@ class HosterThread {
   constructor() {
     this.autohostServer = null;
     this.autohostPort = 0;
+    this.gameConf = null;
+    this.battlePort = 0;
     // main to hoster event listener
     addEventListener('message', (e) => {
       const action=e.data.action;
@@ -25,6 +28,7 @@ class HosterThread {
 
       switch (action) {
         case 'startGame': {
+          this.gameConf = parameters;
           this.startGame(parameters);
           break;
         }
@@ -43,6 +47,11 @@ class HosterThread {
     eventEmitter.on('engineMsg', (message)=>{
       // eslint-disable-next-line max-len
       message.parameters.port = this.autohostPort;
+      if (message.action === 'serverStarted') {
+        console.log('game started, launching ai hoster');
+        const aiHoster = new AIHoster('127.0.0.1', this.battlePort, 'aiHoster', '');
+        aiHoster.scripGenNStart();
+      }
       postMessage(JSON.stringify(message)); // plz do not make decisions in autohostmgr, we pass it back to plasmid, which has the access to db
       // eslint-disable-next-line max-len
       // and the decision will be configurable. See main.js: hoster to mgr event listener
@@ -63,6 +72,7 @@ class HosterThread {
     console.log('game config: ', parameters);
     const hostPort=2000 + parameters.id;
     const battlePort=6000 + parameters.id;
+    this.battlePort = battlePort;
     const mapName=parameters.map;
     eventEmitter.emit('setBattlePort', battlePort);
 

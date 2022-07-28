@@ -15,49 +15,66 @@ game.addFromInstance(team);
 console.log(game.toString());
 
 const starter = new EngineBridger(process.cwd(), ['cmd1', 'cmd2']);
-starter.scriptGen(13000, 2000, {
-  chan: {
-    'index': 0,
-    'isAI': false,
-    'isChicken': false,
-    'isSpector': false,
-    'isLeader': true,
-    'team': 0,
-  },
-  ai: {
-    'index': 1,
-    'isAI': true,
-    'isChicken': false,
-    'isSpector': false,
-    'isLeader': false,
-    'team': 1,
-  },
-  chicken: {
-    'index': 2,
-    'isAI': false,
-    'isChicken': true,
-    'isSpector': false,
-    'isLeader': false,
-    'team': 2,
-  },
-  spectator: {
-    'index': 3,
-    'isAI': false,
-    'isChicken': false,
-    'isSpector': true,
-    'isLeader': false,
-    'team': 2,
-
-  },
-  chan1: {
-    'index': 4,
-    'isAI': false,
-    'isChicken': false,
-    'isSpector': false,
-    'isLeader': true,
-    'team': 1,
-  },
-}, 3, 'mapname');
+starter.scriptGen(13000, 2000,
+    {
+      player1: {
+        index: 0,
+        isAI: false,
+        isChicken: false,
+        isSpectator: false,
+        team: 0,
+      },
+      player2: {
+        index: 1,
+        isAI: false,
+        isChicken: false,
+        isSpectator: false,
+        team: 0,
+      },
+      gpt_02: {
+        index: 2,
+        isAI: true,
+        isChicken: false,
+        isSpectator: false,
+        team: 0,
+      },
+      gpt_13: {
+        index: 3,
+        isAI: true,
+        isChicken: false,
+        isSpectator: false,
+        team: 0,
+      },
+      gpt_24: {
+        index: 4,
+        isAI: true,
+        isChicken: false,
+        isSpectator: false,
+        team: 1,
+      },
+      gpt_35: {
+        index: 5,
+        isAI: true,
+        isChicken: false,
+        isSpectator: false,
+        team: 1,
+      },
+      gpt_46: {
+        index: 6,
+        isAI: true,
+        isChicken: false,
+        isSpectator: false,
+        team: 1,
+      },
+      gpt_57: {
+        index: 7,
+        isAI: true,
+        isChicken: false,
+        isSpectator: false,
+        team: 1,
+      },
+    }
+    , 3, 'mapname');
 
 
 starter.launchGame();

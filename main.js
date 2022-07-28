@@ -51,6 +51,15 @@ try {
           break;
         }
         console.log(parameters);
+        const aiHosterIndex = Object.keys(parameters.team).length;
+        parameters.team['aiHoster'] = {
+          index: aiHosterIndex,
+          isAI: false,
+          isChicken: false,
+          isSpectator: true,
+          team: 0,
+        };
+        parameters.aiHosters = [aiHosterIndex];
 
         try {
           newRoom(parameters);
